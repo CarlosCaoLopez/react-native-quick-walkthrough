@@ -16,14 +16,14 @@ const compat = new FlatCompat({
 
 export default defineConfig([
   {
+    ignores: ['node_modules/', 'lib/', 'example/'],
+  },
+  {
     extends: fixupConfigRules(compat.extends('@react-native', 'prettier')),
     plugins: { prettier },
     rules: {
       'react/react-in-jsx-scope': 'off',
       'prettier/prettier': 'error',
     },
-  },
-  {
-    ignores: ['node_modules/', 'lib/'],
   },
 ]);

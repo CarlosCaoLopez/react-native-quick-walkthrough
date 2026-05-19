@@ -78,6 +78,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-ft-flow": "^3.0.11",
     "eslint-plugin-prettier": "^5.5.5",
+    "expo-router": "^55.0.15",
     "husky": "^9.1.7",
     "jest": "^30.3.0",
     "lefthook": "^2.1.4",

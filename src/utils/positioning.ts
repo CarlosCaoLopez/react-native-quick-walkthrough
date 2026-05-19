@@ -1,7 +1,9 @@
 import type { TargetLayout } from '../types';
 import type { EdgeInsets } from './safeArea';
 
-type Placement = 'top' | 'bottom' | 'left' | 'right';
+export type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
+
+type Placement = TooltipPlacement;
 
 const GAP = 12;
 
@@ -108,7 +110,7 @@ export function computeTooltipPosition({
   tooltip,
   insets,
   placement,
-}: Params): { x: number; y: number } {
+}: Params): { x: number; y: number; resolvedPlacement: TooltipPlacement } {
   const preferred: Placement = placement === 'auto' ? 'bottom' : placement;
 
   const candidates: Placement[] = [
@@ -119,11 +121,14 @@ export function computeTooltipPosition({
 
   for (const candidate of candidates) {
     const pos = positionFor(candidate, target, tooltip, insets, screen);
-    if (fits(pos, tooltip, insets, screen)) return pos;
+    if (fits(pos, tooltip, insets, screen)) {
+      return { ...pos, resolvedPlacement: candidate };
+    }
   }
 
   return {
     x: insets.left + GAP,
     y: screen.height - insets.bottom - tooltip.height - GAP,
+    resolvedPlacement: 'bottom',
   };
 }

@@ -1,5 +1,13 @@
 export { defineTour } from './defineTour';
 export { createExpoRouterAdapter } from './adapters/expoRouter';
 export { createTourEngine } from './engine/tourEngine';
+export { TourTarget } from './components/TourTarget';
+export { Spotlight } from './components/Spotlight';
+export { Tooltip } from './components/Tooltip';
+export { useTargetLayout } from './hooks/useTargetLayout';
+export { computeTooltipPosition } from './utils/positioning';
+export { ZERO_INSETS } from './utils/safeArea';
 export type { Tour, TourStep, TargetId, TourId, TargetLayout } from './types';
 export type { NavigationAdapter, PersistanceAdapter } from './adapters/types';
+export type { TooltipPlacement } from './utils/positioning';
+export type { EdgeInsets } from './utils/safeArea';

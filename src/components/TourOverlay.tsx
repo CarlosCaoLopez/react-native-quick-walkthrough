@@ -7,6 +7,7 @@ import { useTourStore } from '../store/tourStore';
 import { computeTooltipPosition } from '../utils/positioning';
 import { Spotlight } from './Spotlight';
 import { Tooltip } from './Tooltip';
+import { useTourContext } from './TourProvider';
 
 interface TourOverlayProps {
   hostName?: string;
@@ -21,8 +22,8 @@ export function TourOverlay({
   const currentStepIndex = useTourStore((s) => s.currentStepIndex);
   const status = useTourStore((s) => s.status);
   const activeLayout = useTourStore((s) => s.activeLayout);
-  const next = useTourStore((s) => s.next);
-  const prev = useTourStore((s) => s.prev);
+  const { engine } = useTourContext();
+  const { next, prev } = engine;
   const skip = useTourStore((s) => s.skip);
 
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();

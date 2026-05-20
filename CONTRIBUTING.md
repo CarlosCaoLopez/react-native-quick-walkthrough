@@ -1,136 +1,224 @@
 # Contributing
 
-Contributions are always welcome, no matter how large or small!
+Thank you so much for taking the time to read this. It genuinely means a lot that you are here considering contributing to `react-native-walkthrough`.
 
-We want this community to be friendly and respectful to each other. Please follow it in all your interactions with the project. Before contributing, please read the [code of conduct](./CODE_OF_CONDUCT.md).
+Before you start, please read our [Code of Conduct](./CODE_OF_CONDUCT.md). We want this space to be welcoming for everyone.
 
-## Development workflow
+---
 
-This project is a monorepo managed using [Yarn workspaces](https://yarnpkg.com/features/workspaces). It contains the following packages:
+## Review Timeline
 
-- The library package in the root directory.
-- An example app in the `example/` directory.
+Fair warning: the maintainer is a student. Reviews may take **1–2 weeks**. If you open a pull request and do not hear back in 2 weeks, feel free to ping the thread — it helps.
 
-To get started with the project, make sure you have the correct version of [Node.js](https://nodejs.org/) installed. See the [`.nvmrc`](./.nvmrc) file for the version used in this project.
+---
 
-Run `yarn` in the root directory to install the required dependencies for each package:
+## Setup
+
+This project is a [Yarn workspaces](https://yarnpkg.com/features/workspaces) monorepo. It contains:
+
+- The library in the root directory
+- An example Expo app in `example/`
+
+You need the Node version specified in [`.nvmrc`](./.nvmrc). With `nvm`:
+
+```sh
+nvm use
+```
+
+Install all dependencies:
 
 ```sh
 yarn
 ```
 
-> Since the project relies on Yarn workspaces, you cannot use [`npm`](https://github.com/npm/cli) for development without manually migrating.
+The example app is wired to the library source via `react-native-monorepo-config`, so changes to `src/` are reflected immediately without a rebuild.
 
-The [example app](/example/) demonstrates usage of the library. You need to run it to test any changes you make.
+---
 
-It is configured to use the local version of the library, so any changes you make to the library's source code will be reflected in the example app. Changes to the library's JavaScript code will be reflected in the example app without a rebuild, but native code changes will require a rebuild of the example app.
+## Development Workflow
 
-You can use various commands from the root directory to work with the project.
-
-To start the packager:
+Start the Metro bundler for the example app:
 
 ```sh
 yarn example start
 ```
 
-To run the example app on Android:
+Run the example on Android:
 
 ```sh
 yarn example android
 ```
 
-To run the example app on iOS:
+Run the example on iOS:
 
 ```sh
 yarn example ios
 ```
 
-To confirm that the app is running with the new architecture, you can check the Metro logs for a message like this:
-
-```sh
-Running "WalkthroughExample" with {"fabric":true,"initialProps":{"concurrentRoot":true},"rootTag":1}
-```
-
-Note the `"fabric":true` and `"concurrentRoot":true` properties.
-
-To run the example app on Web:
+Run the example on Web:
 
 ```sh
 yarn example web
 ```
 
-Make sure your code passes TypeScript:
+Type-check the library:
 
 ```sh
 yarn typecheck
 ```
 
-To check for linting errors, run the following:
-
-```sh
-yarn lint
-```
-
-To fix formatting errors, run the following:
+Lint and auto-fix:
 
 ```sh
 yarn lint --fix
 ```
 
-Remember to add tests for your change if possible. Run the unit tests by:
+Run tests:
 
 ```sh
 yarn test
 ```
 
+Build the library (output goes to `lib/` — never edit `lib/` manually):
 
-### Commit message convention
+```sh
+yarn prepare
+```
 
-We follow the [conventional commits specification](https://www.conventionalcommits.org/en) for our commit messages:
+---
 
-- `fix`: bug fixes, e.g. fix crash due to deprecated method.
-- `feat`: new features, e.g. add new method to the module.
-- `refactor`: code refactor, e.g. migrate from class components to hooks.
-- `docs`: changes into documentation, e.g. add usage example for the module.
-- `test`: adding or updating tests, e.g. add integration tests using detox.
-- `chore`: tooling changes, e.g. change CI config.
+## Coding Standards
 
-Our pre-commit hooks verify that your commit message matches this format when committing.
+- TypeScript strict mode is enforced
+- ESLint + Prettier handle formatting — run `yarn lint --fix` before committing
+- No `any` types without a comment explaining why
+- No mutations of Zustand state outside store actions
 
+---
 
-### Publishing to npm
+## Tests
 
-We use [release-it](https://github.com/release-it/release-it) to make it easier to publish new versions. It handles common tasks like bumping version based on semver, creating tags and releases etc.
+Add tests for any new behaviour. The test suite runs with Jest:
 
-To publish new versions, run the following:
+```sh
+yarn test
+yarn test --testPathPattern=<name>   # single file
+```
+
+Tests live in `src/engine/__tests__/`, `src/store/__tests__/`, and `src/__tests__/`.
+
+---
+
+## Commit Message Convention
+
+We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Pre-commit hooks (via lefthook + commitlint) enforce this automatically.
+
+```
+<type>(<optional scope>): <description>
+```
+
+**Types:**
+
+| Type       | When to use                               |
+| ---------- | ----------------------------------------- |
+| `feat`     | New feature visible to consumers          |
+| `fix`      | Bug fix                                   |
+| `refactor` | Internal restructure, no behaviour change |
+| `perf`     | Performance improvement                   |
+| `style`    | Formatting/whitespace only                |
+| `test`     | Add or fix tests                          |
+| `docs`     | Documentation only                        |
+| `build`    | Build system, deps, version bump          |
+| `chore`    | Housekeeping (init, .gitignore, etc.)     |
+
+**Rules:**
+
+- Description: imperative present tense, lowercase first letter, no trailing period
+- Breaking change: add `!` before `:` (e.g. `feat(api)!: remove step field`) AND `BREAKING CHANGE:` in the footer
+- Scope: optional, lowercase (e.g. `engine`, `overlay`, `registry`, `adapters`)
+
+**Examples:**
+
+```
+feat(engine): add timeout option to waitFor
+fix(overlay): prevent spotlight flicker on Android rotation
+docs: add React Navigation adapter usage example
+```
+
+---
+
+## DCO Sign-Off
+
+All commits must include a `Signed-off-by` line certifying that you have the right to submit the contribution under the project's license. See [DCO](./DCO) for the full text.
+
+Add it automatically with:
+
+```sh
+git commit -s -m "feat: your message here"
+```
+
+Or configure Git to always add it:
+
+```sh
+git config --global format.signOff true
+```
+
+Pull requests without DCO sign-off will not be merged.
+
+---
+
+## Pull Request Process
+
+1. Fork the repository and create a branch from `main` with a descriptive name:
+   ```sh
+   git checkout -b feat/multi-screen-tour
+   ```
+2. Make your changes. Keep pull requests focused — one concern per PR.
+3. Ensure all checks pass locally (`yarn typecheck`, `yarn lint`, `yarn test`)
+4. Open a pull request using the [PR template](./.github/pull_request_template.md)
+5. At least **1 maintainer approval** is required before merging
+6. For API changes or new features, open an issue to discuss before coding — saves everyone time
+
+---
+
+## Definition of Done
+
+A pull request is ready to merge when:
+
+- [ ] CI passes (lint, typecheck, test, build)
+- [ ] At least 1 maintainer has approved
+- [ ] All commits have a DCO sign-off
+- [ ] The CHANGELOG entry is added (for `feat` and `fix` PRs)
+- [ ] Public API changes are reflected in README.md
+- [ ] No unresolved review comments
+
+---
+
+## Publishing to npm
+
+Releases are cut by the maintainer using [release-it](https://github.com/release-it/release-it):
 
 ```sh
 yarn release
 ```
 
+This bumps the version, creates a Git tag, and publishes to npm.
 
-### Scripts
+---
 
-The `package.json` file contains various scripts for common tasks:
+## Scripts Reference
 
-- `yarn`: setup project by installing dependencies.
-- `yarn typecheck`: type-check files with TypeScript.
-  - `yarn lint`: lint files with [ESLint](https://eslint.org/).
-    - `yarn test`: run unit tests with [Jest](https://jestjs.io/).
-  - `yarn example start`: start the Metro server for the example app.
-- `yarn example android`: run the example app on Android.
-- `yarn example ios`: run the example app on iOS.
-  - `yarn example web`: run the example app on Web.
-- `yarn example build:web`: build the example app for Web.
-  
-### Sending a pull request
-
-> **Working on your first pull request?** You can learn how from this _free_ series: [How to Contribute to an Open Source Project on GitHub](https://app.egghead.io/playlists/how-to-contribute-to-an-open-source-project-on-github).
-
-When you're sending a pull request:
-
-- Prefer small pull requests focused on one change.
-- Verify that linters and tests are passing.
-- Review the documentation to make sure it looks good.
-- Follow the pull request template when opening a pull request.
-- For pull requests that change the API or implementation, discuss with maintainers first by opening an issue.
+| Command                | Description                                |
+| ---------------------- | ------------------------------------------ |
+| `yarn`                 | Install all dependencies                   |
+| `yarn typecheck`       | TypeScript strict check                    |
+| `yarn lint`            | ESLint + Prettier check                    |
+| `yarn lint --fix`      | ESLint + Prettier auto-fix                 |
+| `yarn test`            | Jest unit tests                            |
+| `yarn prepare`         | Build `lib/` with react-native-builder-bob |
+| `yarn clean`           | Remove `lib/` build output                 |
+| `yarn example start`   | Metro bundler for example app              |
+| `yarn example android` | Run example on Android                     |
+| `yarn example ios`     | Run example on iOS                         |
+| `yarn example web`     | Run example on Web                         |
+| `yarn release`         | Cut a new npm release                      |

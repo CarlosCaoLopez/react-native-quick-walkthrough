@@ -1,0 +1,36 @@
+version: 2
+updates:
+  # Root workspace — library dependencies
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      security-updates:
+        update-types:
+          - security
+    ignore:
+      # react-native and react are pinned in peerDependencies intentionally
+      - dependency-name: 'react'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react-native'
+        update-types: ['version-update:semver-major']
+
+  # Example app dependencies
+  - package-ecosystem: npm
+    directory: /example
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      security-updates:
+        update-types:
+          - security
+
+  # GitHub Actions — pin to full commit SHAs to prevent tag-hijacking
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday

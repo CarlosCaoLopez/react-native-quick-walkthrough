@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you so much for taking the time to read this. It genuinely means a lot that you are here considering contributing to `react-native-walkthrough`.
+Thank you so much for taking the time to read this. It genuinely means a lot that you are here considering contributing to `react-native-quick-walkthrough`.
 
 Before you start, please read our [Code of Conduct](./CODE_OF_CONDUCT.md). We want this space to be welcoming for everyone.
 

@@ -1,6 +1,6 @@
 import { View, Text, Switch, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TourTarget } from 'react-native-walkthrough';
+import { TourTarget } from 'react-native-quick-walkthrough';
 
 export default function SettingsScreen() {
   return (

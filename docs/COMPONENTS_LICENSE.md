@@ -2,7 +2,7 @@
 
 ## License Choice: MIT
 
-`react-native-walkthrough` is released under the [MIT License](../LICENSE).
+`react-native-quick-walkthrough` is released under the [MIT License](../LICENSE).
 
 ### Why MIT
 

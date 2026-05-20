@@ -3,7 +3,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   TourProvider,
   createExpoRouterAdapter,
-} from 'react-native-walkthrough';
+} from 'react-native-quick-walkthrough';
 import { onboardingTour } from '../src/tours/onboarding';
 
 const { adapter, Bridge } = createExpoRouterAdapter();

@@ -36,10 +36,10 @@ assignees: ''
 
 ## Environment
 
-| Field                              | Value |
-| ---------------------------------- | ----- |
-| `react-native-walkthrough` version |       |
-| React Native version               |       |
-| Expo SDK version (if applicable)   |       |
-| Platform (iOS / Android / Web)     |       |
-| New Architecture enabled?          |       |
+| Field                                    | Value |
+| ---------------------------------------- | ----- |
+| `react-native-quick-walkthrough` version |       |
+| React Native version                     |       |
+| Expo SDK version (if applicable)         |       |
+| Platform (iOS / Android / Web)           |       |
+| New Architecture enabled?                |       |

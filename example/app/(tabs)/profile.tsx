@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TourTarget } from 'react-native-walkthrough';
+import { TourTarget } from 'react-native-quick-walkthrough';
 
 export default function ProfileScreen() {
   return (

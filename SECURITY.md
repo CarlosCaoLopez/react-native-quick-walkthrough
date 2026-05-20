@@ -13,7 +13,7 @@
 ### Option 1 — GitHub Private Security Advisory (preferred)
 
 Use GitHub's built-in private reporting:
-[https://github.com/CarlosCaoLopez/react-native-walkthrough/security/advisories/new](https://github.com/CarlosCaoLopez/react-native-walkthrough/security/advisories/new)
+[https://github.com/CarlosCaoLopez/react-native-quick-walkthrough/security/advisories/new](https://github.com/CarlosCaoLopez/react-native-quick-walkthrough/security/advisories/new)
 
 ### Option 2 — Email
 
@@ -46,7 +46,7 @@ We will not take legal action against researchers acting in good faith under thi
 
 ## Known Limitations
 
-`react-native-walkthrough` is a pure UI library. It:
+`react-native-quick-walkthrough` is a pure UI library. It:
 
 - Does not handle authentication or authorization
 - Does not store or transmit user data

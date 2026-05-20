@@ -1,5 +1,5 @@
 {
-  "name": "react-native-walkthrough",
+  "name": "react-native-quick-walkthrough",
   "version": "0.1.0",
   "description": "Modern app walkthrough library compatible with expo router",
   "main": "./lib/module/index.js",
@@ -32,7 +32,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace react-native-walkthrough-example",
+    "example": "yarn workspace react-native-quick-walkthrough-example",
     "clean": "del-cli lib",
     "prepare": "husky",
     "typecheck": "tsc",
@@ -47,14 +47,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CarlosCaoLopez/react-native-walkthrough.git"
+    "url": "git+https://github.com/CarlosCaoLopez/react-native-quick-walkthrough.git"
   },
   "author": "Carlos Cao <caolopezcarlos@gmail.com> (https://github.com/CarlosCaoLopez)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CarlosCaoLopez/react-native-walkthrough/issues"
+    "url": "https://github.com/CarlosCaoLopez/react-native-quick-walkthrough/issues"
   },
-  "homepage": "https://github.com/CarlosCaoLopez/react-native-walkthrough#readme",
+  "homepage": "https://github.com/CarlosCaoLopez/react-native-quick-walkthrough#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

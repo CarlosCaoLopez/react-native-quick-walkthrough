@@ -1,7 +1,7 @@
-# react-native-walkthrough
+# react-native-quick-walkthrough
 
-[![CI](https://github.com/CarlosCaoLopez/react-native-walkthrough/actions/workflows/ci.yml/badge.svg)](https://github.com/CarlosCaoLopez/react-native-walkthrough/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/react-native-walkthrough)](https://www.npmjs.com/package/react-native-walkthrough)
+[![CI](https://github.com/CarlosCaoLopez/react-native-quick-walkthrough/actions/workflows/ci.yml/badge.svg)](https://github.com/CarlosCaoLopez/react-native-quick-walkthrough/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/react-native-quick-walkthrough)](https://www.npmjs.com/package/react-native-quick-walkthrough)
 
 A React Native walkthrough library built for modern navigation — steps survive screen transitions, refs unregister on unmount, and the engine navigates itself so tours can span multiple routes.
 
@@ -9,7 +9,7 @@ A React Native walkthrough library built for modern navigation — steps survive
 
 ## Why This Exists
 
-Existing walkthrough libraries (e.g. `react-native-copilot`) assume all tour steps are mounted at the same time. This breaks with Expo Router and React Navigation v7 because refs die when screens unmount. `react-native-walkthrough` solves this: each step declares its route, the engine navigates there, and the registry waits for the ref before measuring.
+Existing walkthrough libraries (e.g. `react-native-copilot`) assume all tour steps are mounted at the same time. This breaks with Expo Router and React Navigation v7 because refs die when screens unmount. `react-native-quick-walkthrough` solves this: each step declares its route, the engine navigates there, and the registry waits for the ref before measuring.
 
 ---
 
@@ -47,10 +47,10 @@ Adapters: NavigationAdapter + PersistenceAdapter (both injected by consumer)
 
 ```sh
 # npm
-npm install react-native-walkthrough
+npm install react-native-quick-walkthrough
 
 # yarn
-yarn add react-native-walkthrough
+yarn add react-native-quick-walkthrough
 ```
 
 ### Peer Dependencies
@@ -83,7 +83,7 @@ Define tours once, outside any component. Each step knows its route and target.
 
 ```ts
 // tours/onboarding.ts
-import { defineTour } from 'react-native-walkthrough';
+import { defineTour } from 'react-native-quick-walkthrough';
 
 export const onboardingTour = defineTour({
   id: 'onboarding',
@@ -111,7 +111,7 @@ export const onboardingTour = defineTour({
 import {
   TourProvider,
   createExpoRouterAdapter,
-} from 'react-native-walkthrough';
+} from 'react-native-quick-walkthrough';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const navigationAdapter = createExpoRouterAdapter();
@@ -140,7 +140,7 @@ Wrap any element you want to highlight with `TourTarget`. The `id` must match a 
 
 ```tsx
 // app/(tabs)/index.tsx
-import { TourTarget } from 'react-native-walkthrough';
+import { TourTarget } from 'react-native-quick-walkthrough';
 
 export default function HomeScreen() {
   return (
@@ -158,7 +158,7 @@ export default function HomeScreen() {
 ### 4. Start the Tour
 
 ```tsx
-import { useTour } from 'react-native-walkthrough';
+import { useTour } from 'react-native-quick-walkthrough';
 import { onboardingTour } from '../tours/onboarding';
 
 export default function HomeScreen() {

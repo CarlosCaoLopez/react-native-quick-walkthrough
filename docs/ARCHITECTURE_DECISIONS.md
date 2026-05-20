@@ -1,6 +1,6 @@
 # Architecture Decisions
 
-This document records the significant architectural choices made in `react-native-walkthrough`, including the context at decision time, the alternatives considered, and the reasoning behind each choice. It is an honest account of trial-and-error during development — not a retrospective of perfect decisions.
+This document records the significant architectural choices made in `react-native-quick-walkthrough`, including the context at decision time, the alternatives considered, and the reasoning behind each choice. It is an honest account of trial-and-error during development — not a retrospective of perfect decisions.
 
 Maintainers should add a new entry any time a decision is made that would surprise a future contributor or that would be difficult to reverse.
 

@@ -1,4 +1,4 @@
-import { defineTour } from 'react-native-walkthrough';
+import { defineTour } from 'react-native-quick-walkthrough';
 
 export const onboardingTour = defineTour({
   id: 'onboarding',

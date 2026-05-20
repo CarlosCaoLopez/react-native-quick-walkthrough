@@ -33,7 +33,7 @@ Each entry explains **why** the change was made, not just what files changed.
 
 ### Why this library exists
 
-Existing React Native walkthrough libraries (e.g. `react-native-copilot`) assume all tour steps are mounted simultaneously. This assumption breaks with modern navigation (Expo Router, React Navigation v7) because refs die when screens unmount and steps can live on different routes. `react-native-walkthrough` solves this structurally: each step knows its route, the engine navigates to it, and the registry waits for the ref to appear before measuring.
+Existing React Native walkthrough libraries (e.g. `react-native-copilot`) assume all tour steps are mounted simultaneously. This assumption breaks with modern navigation (Expo Router, React Navigation v7) because refs die when screens unmount and steps can live on different routes. `react-native-quick-walkthrough` solves this structurally: each step knows its route, the engine navigates to it, and the registry waits for the ref to appear before measuring.
 
-[Unreleased]: https://github.com/CarlosCaoLopez/react-native-walkthrough/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/CarlosCaoLopez/react-native-walkthrough/releases/tag/v0.1.0
+[Unreleased]: https://github.com/CarlosCaoLopez/react-native-quick-walkthrough/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/CarlosCaoLopez/react-native-quick-walkthrough/releases/tag/v0.1.0

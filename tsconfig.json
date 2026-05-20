@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-walkthrough": ["./src/index"]
+      "react-native-quick-walkthrough": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

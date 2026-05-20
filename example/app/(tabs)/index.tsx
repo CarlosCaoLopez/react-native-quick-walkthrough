@@ -1,7 +1,7 @@
 import { Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { TourTarget, useTour } from 'react-native-walkthrough';
+import { TourTarget, useTour } from 'react-native-quick-walkthrough';
 import { onboardingTour } from '../../src/tours/onboarding';
 
 export default function HomeScreen() {

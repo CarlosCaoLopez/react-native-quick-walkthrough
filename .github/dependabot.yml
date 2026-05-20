@@ -8,8 +8,11 @@ updates:
       day: monday
     groups:
       security-updates:
+        applies-to: security-updates
         update-types:
-          - security
+          - major
+          - minor
+          - patch
     ignore:
       # react-native and react are pinned in peerDependencies intentionally
       - dependency-name: 'react'
@@ -25,8 +28,11 @@ updates:
       day: monday
     groups:
       security-updates:
+        applies-to: security-updates
         update-types:
-          - security
+          - major
+          - minor
+          - patch
 
   # GitHub Actions — pin to full commit SHAs to prevent tag-hijacking
   - package-ecosystem: github-actions

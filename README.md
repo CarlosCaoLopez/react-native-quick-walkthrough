@@ -65,12 +65,6 @@ For Expo Router:
 # expo-router is already installed in Expo projects — no extra step needed
 ```
 
-For React Navigation:
-
-```sh
-yarn add @react-navigation/native
-```
-
 Follow the platform setup guides for [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started/) and [@shopify/react-native-skia](https://shopify.github.io/react-native-skia/docs/getting-started/installation) before proceeding.
 
 ---
@@ -106,6 +100,8 @@ export const onboardingTour = defineTour({
 
 ### 2. Wrap Your App in TourProvider
 
+`createExpoRouterAdapter()` returns `{ adapter, Bridge }`. Pass `adapter` to `TourProvider` and render `<Bridge />` inside it so the adapter receives route changes via `usePathname()`.
+
 ```tsx
 // app/_layout.tsx
 import {
@@ -113,10 +109,11 @@ import {
   createExpoRouterAdapter,
 } from 'react-native-quick-walkthrough';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { onboardingTour } from '../tours/onboarding';
 
-const navigationAdapter = createExpoRouterAdapter();
+const { adapter, Bridge } = createExpoRouterAdapter();
 
-const persistenceAdapter = {
+const persistence = {
   get: (key: string) => AsyncStorage.getItem(key),
   set: (key: string, value: string) => AsyncStorage.setItem(key, value),
   remove: (key: string) => AsyncStorage.removeItem(key),
@@ -125,9 +122,11 @@ const persistenceAdapter = {
 export default function RootLayout() {
   return (
     <TourProvider
-      navigationAdapter={navigationAdapter}
-      persistenceAdapter={persistenceAdapter} // optional
+      tours={[onboardingTour]}
+      navigationAdapter={adapter}
+      persistence={persistence} // optional
     >
+      <Bridge />
       <Stack />
     </TourProvider>
   );
@@ -159,14 +158,15 @@ export default function HomeScreen() {
 
 ```tsx
 import { useTour } from 'react-native-quick-walkthrough';
-import { onboardingTour } from '../tours/onboarding';
 
 export default function HomeScreen() {
   const { start } = useTour();
 
-  return <Button title="Start tour" onPress={() => start(onboardingTour)} />;
+  return <Button title="Start tour" onPress={() => start('onboarding')} />;
 }
 ```
+
+`start` takes the tour `id` (string). The tour object itself is registered via `TourProvider`'s `tours` prop.
 
 ---
 
@@ -174,10 +174,21 @@ export default function HomeScreen() {
 
 ### NavigationAdapter
 
-| Adapter          | Import                              | Notes                              |
-| ---------------- | ----------------------------------- | ---------------------------------- |
-| Expo Router      | `createExpoRouterAdapter()`         | No arguments required              |
-| React Navigation | `createReactNavigationAdapter(ref)` | Pass your `NavigationContainerRef` |
+| Adapter     | Import                      | Notes                                                                                               |
+| ----------- | --------------------------- | --------------------------------------------------------------------------------------------------- |
+| Expo Router | `createExpoRouterAdapter()` | Returns `{ adapter, Bridge }`. Pass `adapter` to `TourProvider` and render `<Bridge />` as a child. |
+
+React Navigation adapter is not yet shipped.
+
+### TourProvider props
+
+| Prop                  | Type                                 | Required | Description                                          |
+| --------------------- | ------------------------------------ | -------- | ---------------------------------------------------- |
+| `tours`               | `Tour[]`                             | yes      | All tours the consumer wants to start by id          |
+| `navigationAdapter`   | `NavigationAdapter`                  | yes      | Navigation adapter (e.g. `adapter` from Expo Router) |
+| `persistence`         | `PersistenceAdapter`                 | no       | Key-value store for completion state                 |
+| `overlayLevel`        | `'navigator' \| 'modal' \| 'system'` | no       | Portal host. Default `'navigator'`                   |
+| `tapOutsideToAdvance` | `boolean`                            | no       | Tap outside spotlight to advance                     |
 
 ### PersistenceAdapter
 
@@ -192,17 +203,30 @@ Pass any key-value store that implements `{ get, set, remove }`. If omitted, com
 ### useTour
 
 ```ts
-const { start, stop, next, prev, status, currentStep } = useTour();
+const {
+  start,
+  stop,
+  next,
+  prev,
+  skip,
+  status,
+  currentStepIndex,
+  activeTour,
+  isRunning,
+} = useTour();
 ```
 
-| Member        | Type                   | Description                       |
-| ------------- | ---------------------- | --------------------------------- |
-| `start(tour)` | `(tour: Tour) => void` | Begin a tour from step 0          |
-| `stop()`      | `() => void`           | Abort the current tour            |
-| `next()`      | `() => void`           | Advance to next step              |
-| `prev()`      | `() => void`           | Go back to previous step          |
-| `status`      | `TourStatus`           | `'idle' \| 'running' \| 'paused'` |
-| `currentStep` | `TourStep \| null`     | Active step definition            |
+| Member             | Type                            | Description                                      |
+| ------------------ | ------------------------------- | ------------------------------------------------ |
+| `start(id)`        | `(id: TourId) => Promise<void>` | Begin a tour by id from step 0                   |
+| `stop()`           | `() => void`                    | Abort the current tour                           |
+| `next()`           | `() => void`                    | Advance to next step                             |
+| `prev()`           | `() => void`                    | Go back to previous step                         |
+| `skip()`           | `() => void`                    | Skip remaining steps (fires `onSkip`)            |
+| `status`           | `TourStatus`                    | `'idle' \| 'running' \| 'paused' \| 'completed'` |
+| `currentStepIndex` | `number`                        | Active step index                                |
+| `activeTour`       | `Tour \| null`                  | Active tour object                               |
+| `isRunning`        | `boolean`                       | Shortcut for `status === 'running'`              |
 
 ---
 
@@ -238,7 +262,7 @@ Android collapses view hierarchies by default. Add `collapsable={false}` to any 
 
 **Tour does not persist between sessions**
 
-No `persistenceAdapter` was passed to `TourProvider`. Pass an AsyncStorage or MMKV adapter to enable persistence.
+No `persistence` adapter was passed to `TourProvider`. Pass an AsyncStorage or MMKV adapter to enable persistence.
 
 ---
 

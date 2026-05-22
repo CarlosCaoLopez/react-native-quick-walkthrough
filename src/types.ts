@@ -10,6 +10,7 @@ export interface TourStep<T extends TargetId = TargetId> {
   scrollTo?: boolean;
   onBeforeShow?: () => Promise<void> | void;
   placement?: 'auto' | 'top' | 'bottom' | 'left' | 'right';
+  hidePrevButton?: boolean;
 }
 
 export interface Tour {

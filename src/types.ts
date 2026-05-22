@@ -11,6 +11,7 @@ export interface TourStep<T extends TargetId = TargetId> {
   onBeforeShow?: () => Promise<void> | void;
   placement?: 'auto' | 'top' | 'bottom' | 'left' | 'right';
   hidePrevButton?: boolean;
+  hideSkipButton?: boolean;
 }
 
 export interface Tour {

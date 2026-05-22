@@ -11,7 +11,7 @@ interface TooltipProps {
   resolvedPlacement: TooltipPlacement;
   onPrev?: () => void;
   onNext: () => void;
-  onSkip: () => void;
+  onSkip?: () => void;
   onLayout?: (e: LayoutChangeEvent) => void;
 }
 
@@ -48,9 +48,13 @@ export function Tooltip({
       {title ? <Text style={styles.title}>{title}</Text> : null}
       <Text style={styles.text}>{text}</Text>
       <View style={styles.footer}>
-        <TouchableOpacity onPress={onSkip} hitSlop={HIT_SLOP}>
-          <Text style={styles.skip}>Skip</Text>
-        </TouchableOpacity>
+        {onSkip ? (
+          <TouchableOpacity onPress={onSkip} hitSlop={HIT_SLOP}>
+            <Text style={styles.skip}>Skip</Text>
+          </TouchableOpacity>
+        ) : (
+          <View />
+        )}
         <Text style={styles.counter}>
           {stepIndex + 1} / {totalSteps}
         </Text>

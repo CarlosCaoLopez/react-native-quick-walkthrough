@@ -1,4 +1,5 @@
-import { useMemo, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, type ReactNode } from 'react';
+import type { ComponentRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { createTourEngine } from '../engine/tourEngine';
 import type { NavigationAdapter, PersistenceAdapter } from '../adapters/types';
@@ -6,6 +7,7 @@ import type { Tour } from '../types';
 import { TourOverlay } from './TourOverlay';
 import { useTourPersistence } from '../hooks/useTourPersistence';
 import { TourContext } from '../store/tourContext';
+import { registry } from '../store/registry';
 
 export { useTourContext } from '../store/tourContext';
 
@@ -35,9 +37,16 @@ export function TourProvider({
 
   useTourPersistence(persistence, engine, toursMap);
 
+  const containerRef = useRef<ComponentRef<typeof View>>(null);
+
+  useEffect(() => {
+    registry.setContainerRef(containerRef);
+    return () => registry.setContainerRef(null);
+  }, []);
+
   return (
     <TourContext.Provider value={{ engine, toursMap }}>
-      <View style={styles.root} collapsable={false}>
+      <View ref={containerRef} style={styles.root} collapsable={false}>
         {children}
         <TourOverlay
           tapOutsideToAdvance={tapOutsideToAdvance}

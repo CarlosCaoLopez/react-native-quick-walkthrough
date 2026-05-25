@@ -10,6 +10,7 @@ export interface TargetEntry {
 }
 
 const targets = new Map<TargetId, TargetEntry>();
+let containerRef: RefObject<ComponentRef<typeof View> | null> | null = null;
 
 function register(
   id: TargetId,
@@ -32,4 +33,21 @@ function waitFor(id: TargetId, timeout: number): Promise<TargetEntry> {
   return _waitFor(id, targets.get.bind(targets), timeout);
 }
 
-export const registry = { register, unregister, get, waitFor };
+function setContainerRef(
+  ref: RefObject<ComponentRef<typeof View> | null> | null
+): void {
+  containerRef = ref;
+}
+
+function getContainerRef(): RefObject<ComponentRef<typeof View> | null> | null {
+  return containerRef;
+}
+
+export const registry = {
+  register,
+  unregister,
+  get,
+  waitFor,
+  setContainerRef,
+  getContainerRef,
+};

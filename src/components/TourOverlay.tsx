@@ -1,13 +1,6 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import type { LayoutChangeEvent } from 'react-native';
-import {
-  Modal,
-  Platform,
-  Pressable,
-  StyleSheet,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTourStore } from '../store/tourStore';
 import { computeTooltipPosition } from '../utils/positioning';
@@ -35,21 +28,12 @@ export function TourOverlay({
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const [tooltipSize, setTooltipSize] = useState({ width: 260, height: 120 });
-  const calibrationRef = useRef<any>(null);
-  const [originOffset, setOriginOffset] = useState({ x: 0, y: 0 });
 
   const handleTooltipLayout = useCallback((e: LayoutChangeEvent) => {
     const { width, height } = e.nativeEvent.layout;
     if (width > 0 && height > 0) {
       setTooltipSize({ width, height });
     }
-  }, []);
-
-  const handleCalibration = useCallback(() => {
-    if (Platform.OS !== 'android') return;
-    calibrationRef.current?.measureInWindow((x: number, y: number) => {
-      setOriginOffset({ x, y });
-    });
   }, []);
 
   if (status !== 'running' || !activeLayout || !activeTour) {
@@ -65,27 +49,18 @@ export function TourOverlay({
     blockOutsideTouches ??
     false;
 
-  const adjustedLayout =
-    Platform.OS === 'android'
-      ? {
-          ...activeLayout,
-          x: activeLayout.x - originOffset.x,
-          y: activeLayout.y - originOffset.y,
-        }
-      : activeLayout;
-
   const { x, y, resolvedPlacement } = computeTooltipPosition({
-    target: adjustedLayout,
+    target: activeLayout,
     screen: { width: screenWidth, height: screenHeight },
     tooltip: tooltipSize,
     insets,
     placement: step.placement ?? 'auto',
   });
 
-  const { x: tx, y: ty, width: tw, height: th } = adjustedLayout;
+  const { x: tx, y: ty, width: tw, height: th } = activeLayout;
 
-  const content = (
-    <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+  return (
+    <View style={styles.root} pointerEvents="box-none">
       {(effectiveBlock || tapOutsideToAdvance) && (
         <>
           <Pressable
@@ -130,7 +105,7 @@ export function TourOverlay({
           />
         </>
       )}
-      <Spotlight layout={adjustedLayout} />
+      <Spotlight layout={activeLayout} />
       <Tooltip
         title={step.title}
         text={step.text}
@@ -145,26 +120,8 @@ export function TourOverlay({
       />
     </View>
   );
-
-  return (
-    <Modal
-      visible
-      transparent
-      animationType="none"
-      statusBarTranslucent
-      onRequestClose={undefined}
-    >
-      <View
-        ref={calibrationRef}
-        onLayout={handleCalibration}
-        style={styles.calibration}
-        pointerEvents="none"
-      />
-      {content}
-    </Modal>
-  );
 }
 
 const styles = StyleSheet.create({
-  calibration: { position: 'absolute', top: 0, left: 0, width: 1, height: 1 },
+  root: { ...StyleSheet.absoluteFillObject, elevation: 9999, zIndex: 9999 },
 });

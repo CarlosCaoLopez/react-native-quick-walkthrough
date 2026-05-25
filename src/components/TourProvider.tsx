@@ -1,4 +1,5 @@
 import { useMemo, type ReactNode } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { createTourEngine } from '../engine/tourEngine';
 import type { NavigationAdapter, PersistenceAdapter } from '../adapters/types';
 import type { Tour } from '../types';
@@ -36,11 +37,17 @@ export function TourProvider({
 
   return (
     <TourContext.Provider value={{ engine, toursMap }}>
-      {children}
-      <TourOverlay
-        tapOutsideToAdvance={tapOutsideToAdvance}
-        blockOutsideTouches={blockOutsideTouches}
-      />
+      <View style={styles.root} collapsable={false}>
+        {children}
+        <TourOverlay
+          tapOutsideToAdvance={tapOutsideToAdvance}
+          blockOutsideTouches={blockOutsideTouches}
+        />
+      </View>
     </TourContext.Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+});

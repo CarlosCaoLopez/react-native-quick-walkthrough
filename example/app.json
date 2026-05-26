@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Walkthrough Example",
-    "slug": "react-native-quick-walkthrough-example",
+    "slug": "react-native-walkthrough-example",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

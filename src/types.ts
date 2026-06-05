@@ -13,6 +13,7 @@ export interface TourStep<T extends TargetId = TargetId> {
   hidePrevButton?: boolean;
   hideSkipButton?: boolean;
   blockOutsideTouches?: boolean;
+  blockInsideTouches?: boolean;
 }
 
 export interface Tour {
@@ -21,6 +22,7 @@ export interface Tour {
   onComplete?: () => void;
   onSkip?: () => void;
   blockOutsideTouches?: boolean;
+  blockInsideTouches?: boolean;
 }
 
 export interface TargetLayout {

@@ -11,11 +11,13 @@ import { useTourContext } from '../store/tourContext';
 interface TourOverlayProps {
   tapOutsideToAdvance?: boolean;
   blockOutsideTouches?: boolean;
+  blockInsideTouches?: boolean;
 }
 
 export function TourOverlay({
   tapOutsideToAdvance = false,
   blockOutsideTouches,
+  blockInsideTouches,
 }: TourOverlayProps) {
   const activeTour = useTourStore((s) => s.activeTour);
   const currentStepIndex = useTourStore((s) => s.currentStepIndex);
@@ -47,6 +49,12 @@ export function TourOverlay({
     step.blockOutsideTouches ??
     activeTour.blockOutsideTouches ??
     blockOutsideTouches ??
+    false;
+
+  const effectiveBlockInside =
+    step.blockInsideTouches ??
+    activeTour.blockInsideTouches ??
+    blockInsideTouches ??
     false;
 
   const { x, y, resolvedPlacement } = computeTooltipPosition({
@@ -105,6 +113,17 @@ export function TourOverlay({
             onPress={tapOutsideToAdvance ? next : undefined}
           />
         </>
+      )}
+      {effectiveBlockInside && (
+        <Pressable
+          style={{
+            position: 'absolute',
+            left: tx,
+            top: ty,
+            width: tw,
+            height: th,
+          }}
+        />
       )}
       <Tooltip
         title={step.title}

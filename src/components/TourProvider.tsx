@@ -17,6 +17,7 @@ interface TourProviderProps {
   persistence?: PersistenceAdapter;
   tapOutsideToAdvance?: boolean;
   blockOutsideTouches?: boolean;
+  blockInsideTouches?: boolean;
   children: ReactNode;
 }
 
@@ -26,6 +27,7 @@ export function TourProvider({
   persistence,
   tapOutsideToAdvance,
   blockOutsideTouches,
+  blockInsideTouches,
   children,
 }: TourProviderProps) {
   const engine = useMemo(
@@ -51,6 +53,7 @@ export function TourProvider({
         <TourOverlay
           tapOutsideToAdvance={tapOutsideToAdvance}
           blockOutsideTouches={blockOutsideTouches}
+          blockInsideTouches={blockInsideTouches}
         />
       </View>
     </TourContext.Provider>

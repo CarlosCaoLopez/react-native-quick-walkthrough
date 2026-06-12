@@ -10,7 +10,7 @@ interface TooltipProps {
   position: { x: number; y: number };
   resolvedPlacement: TooltipPlacement;
   onPrev?: () => void;
-  onNext: () => void;
+  onNext?: () => void;
   onSkip?: () => void;
   onLayout?: (e: LayoutChangeEvent) => void;
 }
@@ -68,13 +68,15 @@ export function Tooltip({
               <Text style={styles.navText}>Prev</Text>
             </TouchableOpacity>
           ) : null}
-          <TouchableOpacity
-            onPress={onNext}
-            hitSlop={HIT_SLOP}
-            style={[styles.navBtn, styles.nextBtn]}
-          >
-            <Text style={styles.nextText}>{isLast ? 'Finish' : 'Next'}</Text>
-          </TouchableOpacity>
+          {onNext ? (
+            <TouchableOpacity
+              onPress={onNext}
+              hitSlop={HIT_SLOP}
+              style={[styles.navBtn, styles.nextBtn]}
+            >
+              <Text style={styles.nextText}>{isLast ? 'Finish' : 'Next'}</Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
       </View>
     </View>

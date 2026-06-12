@@ -133,7 +133,7 @@ export function TourOverlay({
         position={{ x, y }}
         resolvedPlacement={resolvedPlacement}
         onPrev={currentStepIndex > 0 && !step.hidePrevButton ? prev : undefined}
-        onNext={next}
+        onNext={step.hideNextButton ? undefined : next}
         onSkip={step.hideSkipButton ? undefined : skip}
         onLayout={handleTooltipLayout}
       />

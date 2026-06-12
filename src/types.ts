@@ -12,6 +12,7 @@ export interface TourStep<T extends TargetId = TargetId> {
   placement?: 'auto' | 'top' | 'bottom' | 'left' | 'right';
   hidePrevButton?: boolean;
   hideSkipButton?: boolean;
+  hideNextButton?: boolean;
   blockOutsideTouches?: boolean;
   blockInsideTouches?: boolean;
 }

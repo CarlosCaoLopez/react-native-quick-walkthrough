@@ -12,7 +12,17 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <Bridge />
-      <TourProvider tours={[onboardingTour]} navigationAdapter={adapter}>
+      <TourProvider
+        tours={[onboardingTour]}
+        navigationAdapter={adapter}
+        labels={{
+          skip: 'Omitir',
+          prev: 'Atrás',
+          next: 'Siguiente',
+          finish: 'Listo',
+          counter: (current, total) => `Paso ${current} de ${total}`,
+        }}
+      >
         <Stack screenOptions={{ headerShown: false }} />
       </TourProvider>
     </SafeAreaProvider>

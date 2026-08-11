@@ -3,7 +3,7 @@ import type { ComponentRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { createTourEngine } from '../engine/tourEngine';
 import type { NavigationAdapter, PersistenceAdapter } from '../adapters/types';
-import type { Tour } from '../types';
+import type { Tour, TourLabels } from '../types';
 import { TourOverlay } from './TourOverlay';
 import { useTourPersistence } from '../hooks/useTourPersistence';
 import { TourContext } from '../store/tourContext';
@@ -18,6 +18,7 @@ interface TourProviderProps {
   tapOutsideToAdvance?: boolean;
   blockOutsideTouches?: boolean;
   blockInsideTouches?: boolean;
+  labels?: TourLabels;
   children: ReactNode;
 }
 
@@ -28,6 +29,7 @@ export function TourProvider({
   tapOutsideToAdvance,
   blockOutsideTouches,
   blockInsideTouches,
+  labels,
   children,
 }: TourProviderProps) {
   const engine = useMemo(
@@ -54,6 +56,7 @@ export function TourProvider({
           tapOutsideToAdvance={tapOutsideToAdvance}
           blockOutsideTouches={blockOutsideTouches}
           blockInsideTouches={blockInsideTouches}
+          labels={labels}
         />
       </View>
     </TourContext.Provider>

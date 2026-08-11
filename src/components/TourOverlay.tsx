@@ -7,17 +7,21 @@ import { computeTooltipPosition } from '../utils/positioning';
 import { Spotlight } from './Spotlight';
 import { Tooltip } from './Tooltip';
 import { useTourContext } from '../store/tourContext';
+import type { TourLabels } from '../types';
+import { resolveLabels } from '../utils/labels';
 
 interface TourOverlayProps {
   tapOutsideToAdvance?: boolean;
   blockOutsideTouches?: boolean;
   blockInsideTouches?: boolean;
+  labels?: TourLabels;
 }
 
 export function TourOverlay({
   tapOutsideToAdvance = false,
   blockOutsideTouches,
   blockInsideTouches,
+  labels,
 }: TourOverlayProps) {
   const activeTour = useTourStore((s) => s.activeTour);
   const currentStepIndex = useTourStore((s) => s.currentStepIndex);
@@ -56,6 +60,8 @@ export function TourOverlay({
     activeTour.blockInsideTouches ??
     blockInsideTouches ??
     false;
+
+  const effectiveLabels = resolveLabels(labels, activeTour.labels, step.labels);
 
   const { x, y, resolvedPlacement } = computeTooltipPosition({
     target: activeLayout,
@@ -136,6 +142,7 @@ export function TourOverlay({
         onNext={step.hideNextButton ? undefined : next}
         onSkip={step.hideSkipButton ? undefined : skip}
         onLayout={handleTooltipLayout}
+        labels={effectiveLabels}
       />
     </>
   );

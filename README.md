@@ -191,6 +191,55 @@ React Navigation adapter is not yet shipped.
 | `persistence`         | `PersistenceAdapter` | no       | Key-value store for completion state                 |
 | `tapOutsideToAdvance` | `boolean`            | no       | Tap outside spotlight to advance                     |
 | `blockOutsideTouches` | `boolean`            | no       | Block touches outside the spotlight hole             |
+| `blockInsideTouches`  | `boolean`            | no       | Block touches within the spotlight hole              |
+| `labels`              | `TourLabels`         | no       | Text of the tooltip buttons and counter              |
+
+### Labels (i18n)
+
+Tooltip button text defaults to English. Pass a `labels` object to translate it. Every field is optional — anything omitted falls back to the default.
+
+| Field     | Type                                         | Default                       |
+| --------- | -------------------------------------------- | ----------------------------- |
+| `skip`    | `string`                                     | `'Skip'`                      |
+| `prev`    | `string`                                     | `'Prev'`                      |
+| `next`    | `string`                                     | `'Next'`                      |
+| `finish`  | `string`                                     | `'Finish'` (last step)        |
+| `counter` | `(current: number, total: number) => string` | `` `${current} / ${total}` `` |
+
+`counter` receives `current` **1-indexed**, so the first step is `1`.
+
+Labels resolve with the precedence **step → tour → provider → defaults**, merged field by field:
+
+```tsx
+<TourProvider
+  tours={[onboardingTour]}
+  navigationAdapter={adapter}
+  labels={{
+    skip: 'Omitir',
+    prev: 'Atrás',
+    next: 'Siguiente',
+    finish: 'Listo',
+    counter: (current, total) => `Paso ${current} de ${total}`,
+  }}
+>
+```
+
+```ts
+defineTour({
+  id: 'onboarding',
+  labels: { finish: '¡Vamos!' }, // overrides the provider for this tour
+  steps: [
+    {
+      id: 'welcome',
+      target: 'home-button',
+      text: 'This is your home screen.',
+      labels: { next: 'Continuar' }, // overrides the tour for this step
+    },
+  ],
+});
+```
+
+Because the merge is per field, a step that sets only `next` keeps the provider's `skip`, `prev`, `finish` and `counter`.
 
 ### PersistenceAdapter
 

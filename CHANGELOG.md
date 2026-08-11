@@ -11,6 +11,10 @@ Each entry explains **why** the change was made, not just what files changed.
 
 ## [Unreleased]
 
+### Added
+
+- **`labels` prop** — the tooltip buttons (`Skip`, `Prev`, `Next`, `Finish`) and the step counter were hardcoded in English, so non-English apps could only hide them. `labels` is accepted on `TourProvider`, on a `Tour` and on a `TourStep`, and resolves step → tour → provider → defaults, merged field by field so a partial override never drops the other labels. `counter` is a formatter function `(current, total) => string` with `current` 1-indexed, which also covers "Paso 1 de 3"-style wording and non-Arabic numerals. `DEFAULT_LABELS` and `resolveLabels` are exported for consumers building their own tooltip.
+
 ---
 
 ## [0.1.0] — 2026-05-20

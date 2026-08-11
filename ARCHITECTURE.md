@@ -317,7 +317,7 @@ Decisions explicitly delegated to the consumer:
 - **Router**: Expo Router vs plain React Navigation.
 - **Tooltip visual style**: the lib provides a default, but the consumer can pass `renderTooltip` to replace it entirely.
 - **Tour trigger**: the app decides when to call `start()` (first login, feature flag, help button, etc.).
-- **i18n**: texts live in the tour definition; the consumer translates before passing them.
+- **i18n**: step texts live in the tour definition; the consumer translates before passing them. The tooltip chrome (Skip / Prev / Next / Finish and the step counter) is not part of the tour content, so it is configured with the `labels` object, accepted at provider, tour and step level and merged field by field with the English defaults.
 
 ---
 

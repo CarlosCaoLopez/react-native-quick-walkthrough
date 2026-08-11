@@ -1,6 +1,8 @@
 import type { LayoutChangeEvent } from 'react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { TooltipPlacement } from '../utils/positioning';
+import type { TourLabels } from '../types';
+import { resolveLabels } from '../utils/labels';
 
 interface TooltipProps {
   title?: string;
@@ -13,6 +15,7 @@ interface TooltipProps {
   onNext?: () => void;
   onSkip?: () => void;
   onLayout?: (e: LayoutChangeEvent) => void;
+  labels?: TourLabels;
 }
 
 const ARROW = 14;
@@ -36,8 +39,10 @@ export function Tooltip({
   onNext,
   onSkip,
   onLayout,
+  labels,
 }: TooltipProps) {
   const isLast = stepIndex === totalSteps - 1;
+  const l = resolveLabels(labels);
 
   return (
     <View
@@ -50,13 +55,13 @@ export function Tooltip({
       <View style={styles.footer}>
         {onSkip ? (
           <TouchableOpacity onPress={onSkip} hitSlop={HIT_SLOP}>
-            <Text style={styles.skip}>Skip</Text>
+            <Text style={styles.skip}>{l.skip}</Text>
           </TouchableOpacity>
         ) : (
           <View />
         )}
         <Text style={styles.counter}>
-          {stepIndex + 1} / {totalSteps}
+          {l.counter(stepIndex + 1, totalSteps)}
         </Text>
         <View style={styles.navRow}>
           {onPrev ? (
@@ -65,7 +70,7 @@ export function Tooltip({
               hitSlop={HIT_SLOP}
               style={styles.navBtn}
             >
-              <Text style={styles.navText}>Prev</Text>
+              <Text style={styles.navText}>{l.prev}</Text>
             </TouchableOpacity>
           ) : null}
           {onNext ? (
@@ -74,7 +79,7 @@ export function Tooltip({
               hitSlop={HIT_SLOP}
               style={[styles.navBtn, styles.nextBtn]}
             >
-              <Text style={styles.nextText}>{isLast ? 'Finish' : 'Next'}</Text>
+              <Text style={styles.nextText}>{isLast ? l.finish : l.next}</Text>
             </TouchableOpacity>
           ) : null}
         </View>

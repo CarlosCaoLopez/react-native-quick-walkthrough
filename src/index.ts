@@ -10,7 +10,16 @@ export { useTargetLayout } from './hooks/useTargetLayout';
 export { useTour } from './hooks/useTour';
 export { computeTooltipPosition } from './utils/positioning';
 export { ZERO_INSETS } from './utils/safeArea';
-export type { Tour, TourStep, TargetId, TourId, TargetLayout } from './types';
+export { DEFAULT_LABELS, resolveLabels } from './utils/labels';
+export type {
+  Tour,
+  TourStep,
+  TourLabels,
+  TargetId,
+  TourId,
+  TargetLayout,
+} from './types';
+export type { ResolvedLabels } from './utils/labels';
 export type { NavigationAdapter, PersistenceAdapter } from './adapters/types';
 export type { TourStatus } from './store/tourStore';
 export type { TooltipPlacement } from './utils/positioning';

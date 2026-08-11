@@ -1,6 +1,15 @@
 export type TargetId = string;
 export type TourId = string;
 
+export interface TourLabels {
+  skip?: string;
+  prev?: string;
+  next?: string;
+  finish?: string;
+  /** `current` is 1-indexed. Default: `${current} / ${total}` */
+  counter?: (current: number, total: number) => string;
+}
+
 export interface TourStep<T extends TargetId = TargetId> {
   id: string;
   target: T;
@@ -15,6 +24,7 @@ export interface TourStep<T extends TargetId = TargetId> {
   hideNextButton?: boolean;
   blockOutsideTouches?: boolean;
   blockInsideTouches?: boolean;
+  labels?: TourLabels;
 }
 
 export interface Tour {
@@ -24,6 +34,7 @@ export interface Tour {
   onSkip?: () => void;
   blockOutsideTouches?: boolean;
   blockInsideTouches?: boolean;
+  labels?: TourLabels;
 }
 
 export interface TargetLayout {
